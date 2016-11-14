@@ -4,7 +4,7 @@
 
 var searchTerm = "enigma";
 var startYear =  "1945";	// begin_date = YYYYMMDD
-var stopYear = "1952";		// end_date = YYYYMMDD
+var endYear = "1952";		// end_date = YYYYMMDD
 var numRecords = 5;
 
 function searchCallback() {
@@ -13,7 +13,7 @@ function searchCallback() {
 	url += '?' + $.param({
 					'api-key': "0f04f96b81ec4a7d92d9e017b07261b0",
 					'begin_date': startYear + "0101",
-					'end_date': stopYear + "0101",
+					'end_date': endYear + "0101",
 					'q': searchTerm
 						});
 	$.ajax({
