@@ -19,9 +19,15 @@ function searchCallback() {
 	endYear = $("#endYear").val();
 	numRecords = $("numRecords").val();
 
-	console.log(searchTerm);
+	// Sanity lmit numRecords
 
-	// Built by LucyBot. www.lucybot.com
+	numRecords = (numRecords === undefined) ? 1 : Math.min(10, numRecords);
+
+	console.log(searchTerm);
+	console.log(startYear);
+	console.log(stopYear);
+	console.log(numRecords);
+
 	var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
 	url += '?' + $.param({
 					'api-key': "0f04f96b81ec4a7d92d9e017b07261b0",
@@ -29,22 +35,34 @@ function searchCallback() {
 					'end_date': endYear + "0101",
 					'q': searchTerm
 						});
+	console.log("url: " + url);
+
 	$.ajax({
 		url: url,
 		method: 'GET',
 	}).done(function(result) {
-		// This is where we parse down the search results.
+		processJSON(response, numRecords);
 		$("#searchResults").text(JSON.stringify(result));
-		console.log(result);
 	}).fail(function(err) {
 		throw err;
 	});
 	return false;
 }
 
-function clearCallback() {
-	// This function should clear out the html elements that
-	// have presentation data.
+function processJSON(theJSON, numRecords) {
+	for (var i = 0; i < numRecords; i++) {
+		var prefix = theJSON.response.docs[i];
+		var title = prefix.headline.main;
+		var author = prefix.byline.person.firstname + " " + prefix.byline.person.lastname;
+		var section = prefix.section_name;
+		var pubDate = prefix.pub_date;
+		var link = theJSON.response.docs[i].web_url;
+		console.log(prefix);
+		console.log(title);
+		console.log(author);
+		console.log(section);
+		console.log(pubDate);
+		console.log(line);
+	}
+	return false;
 }
-
-searchCallback();
